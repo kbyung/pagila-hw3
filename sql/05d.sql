@@ -1,5 +1,4 @@
-/* 
- * In the previous query, the actors could come from any combination of movies.
+/* * In the previous query, the actors could come from any combination of movies.
  * Unfortunately, you've found that if the actors all come from only 1 or 2 of the movies,
  * then there is not enough diversity in the acting talent.
  *
@@ -12,3 +11,39 @@
  * There are many ways to solve this problem,
  * but I personally found the INTERSECT operator to make a convenient solution.
  */
+SELECT DISTINCT f.title
+FROM film f
+JOIN film_actor fa ON f.film_id = fa.film_id
+WHERE fa.actor_id IN (
+    SELECT actor_id
+    FROM film_actor fa
+    JOIN film f ON fa.film_id = f.film_id
+    WHERE f.title = 'AMERICAN CIRCUS'
+)
+
+INTERSECT
+
+SELECT DISTINCT f.title
+FROM film f
+JOIN film_actor fa ON f.film_id = fa.film_id
+WHERE fa.actor_id IN (
+    SELECT actor_id
+    FROM film_actor fa
+    JOIN film f ON fa.film_id = f.film_id
+    WHERE f.title = 'ACADEMY DINOSAUR'
+)
+
+INTERSECT
+
+SELECT DISTINCT f.title
+FROM film f
+JOIN film_actor fa ON f.film_id = fa.film_id
+WHERE fa.actor_id IN (
+    SELECT actor_id
+    FROM film_actor fa
+    JOIN film f ON fa.film_id = f.film_id
+    WHERE f.title = 'AGENT TRUMAN'
+)
+
+ORDER BY title;
+
